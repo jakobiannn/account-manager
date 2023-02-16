@@ -1,0 +1,11 @@
+<persistence>
+    <persistence-unit name="my-persistence-unit">
+        <properties>
+            <property name="javax.persistence.jdbc.driver">com.microsoft.sqlserver.jdbc.SQLServerDriver</property>
+            <property name="javax.persistence.jdbc.user">adm</property>
+            <property name="javax.persistence.jdbc.password">admin</property>
+            <property name="javax.persistence.jdbc.url">jdbc:sqlserver://localhost:1433;database=UsersDB;trustServerCertificate=true</property>
+            <property name="hibernate.dialect">org.hibernate.dialect.SQLServerDialect</property>
+        </properties>
+    </persistence-unit>
+</persistence>
