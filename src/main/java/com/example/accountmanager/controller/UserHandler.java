@@ -4,10 +4,9 @@ import com.example.accountmanager.entity.User;
 import com.example.accountmanager.exception.UserAlreadyExistException;
 import com.example.accountmanager.exception.UserNotFoundException;
 import com.example.accountmanager.exception.WrongEditRequestException;
-import com.example.accountmanager.model.MessageRespone;
+import com.example.accountmanager.model.MessageResponse;
 import com.example.accountmanager.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,42 +30,42 @@ public class UserHandler {
     }
 
     @PostMapping("/add")
-    User newUser(@RequestBody User user) throws UserAlreadyExistException {
+    public User newUser(@RequestBody User user) throws UserAlreadyExistException {
         return userService.save(user);
     }
 
     @PatchMapping("/edit")
-    MessageRespone editUser(@RequestBody User user) throws UserNotFoundException, WrongEditRequestException {
+    public MessageResponse editUser(@RequestBody User user) throws UserNotFoundException, WrongEditRequestException {
         return userService.updateUser(user);
     }
 
     @GetMapping("/show")
-    List<User> getUsers() {
+    public List<User> getUsers() {
         return userService.findAll();
     }
 
     @DeleteMapping("/{login}")
-    public MessageRespone deleteUser(@PathVariable("login") String login) throws UserNotFoundException {
+    public MessageResponse deleteUser(@PathVariable("login") String login) throws UserNotFoundException {
         return userService.deleteUser(login);
     }
 
     @PatchMapping("/change_pass")
-    public MessageRespone changePass(@RequestBody User user) throws UserNotFoundException {
+    public MessageResponse changePass(@RequestBody User user) throws UserNotFoundException {
         return userService.changePass(user);
     }
 
     @ExceptionHandler(UserAlreadyExistException.class)
-    public MessageRespone handleUserNotExist(UserAlreadyExistException e) {
-        return new MessageRespone(e.getMessage());
+    public MessageResponse handleUserNotExist(UserAlreadyExistException e) {
+        return new MessageResponse(e.getMessage());
     }
 
     @ExceptionHandler(UserNotFoundException.class)
-    public MessageRespone handleUserNotFound(UserNotFoundException e) {
-        return new MessageRespone(e.getMessage());
+    public MessageResponse handleUserNotFound(UserNotFoundException e) {
+        return new MessageResponse(e.getMessage());
     }
 
     @ExceptionHandler(WrongEditRequestException.class)
-    public MessageRespone handleWrongEditRequest(WrongEditRequestException e) {
-        return new MessageRespone(e.getMessage());
+    public MessageResponse handleWrongEditRequest(WrongEditRequestException e) {
+        return new MessageResponse(e.getMessage());
     }
 }

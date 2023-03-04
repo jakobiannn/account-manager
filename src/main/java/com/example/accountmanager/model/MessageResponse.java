@@ -1,9 +1,9 @@
 package com.example.accountmanager.model;
 
-public class MessageRespone {
+public class MessageResponse {
     private String message;
 
-    public MessageRespone(String message) {
+    public MessageResponse(String message) {
         this.message = message;
     }
 

@@ -4,7 +4,7 @@ import com.example.accountmanager.entity.User;
 import com.example.accountmanager.exception.UserAlreadyExistException;
 import com.example.accountmanager.exception.UserNotFoundException;
 import com.example.accountmanager.exception.WrongEditRequestException;
-import com.example.accountmanager.model.MessageRespone;
+import com.example.accountmanager.model.MessageResponse;
 import com.example.accountmanager.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,7 +36,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public MessageRespone updateUser(User user) throws UserNotFoundException, WrongEditRequestException {
+    public MessageResponse updateUser(User user) throws UserNotFoundException, WrongEditRequestException {
         Optional<User> oldUserOptional = Optional.ofNullable(
                 userRepository.findByLogin(user.getLogin()).orElseThrow(() -> new UserNotFoundException(user.getLogin()))
         );
@@ -53,31 +53,31 @@ public class UserServiceImpl implements UserService {
                 .password(oldUserEntity.getPassword())
                 .build();
         if (editedUser.equals(oldUserEntity)) {
-            return new MessageRespone("User was not changed. Field for edit are equals.");
+            return new MessageResponse("User was not changed. Field for edit are equals.");
         } else {
             userRepository.save(editedUser);
-            return new MessageRespone("User edited successfully.");
+            return new MessageResponse("User edited successfully.");
         }
     }
 
     @Override
     @Transactional
-    public MessageRespone deleteUser(String login) throws UserNotFoundException {
+    public MessageResponse deleteUser(String login) throws UserNotFoundException {
         if (!userRepository.existsUserByLogin(login)) {
             throw new UserNotFoundException(login);
         }
         userRepository.deleteUserByLogin(login);
-        return new MessageRespone("User deleted successfully.");
+        return new MessageResponse("User deleted successfully.");
     }
 
     @Override
-    public MessageRespone changePass(User user) throws UserNotFoundException {
+    public MessageResponse changePass(User user) throws UserNotFoundException {
         Optional<User> userOptional = Optional.ofNullable(
                 userRepository.findByLogin(user.getLogin()).orElseThrow(() -> new UserNotFoundException(user.getLogin()))
         );
         User oldUser = userOptional.get();
         oldUser.setPassword(user.getPassword());
         userRepository.save(oldUser);
-        return new MessageRespone("Password changed!");
+        return new MessageResponse("Password changed!");
     }
 }
